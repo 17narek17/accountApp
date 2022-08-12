@@ -1,13 +1,31 @@
 import axios from "axios";
+import { Dispatch, SetStateAction } from "react";
 
 export const getAccounts = async () => {
-  const request = await axios.get("http://localhost:3001/")
+  const request = await axios.get("http://localhost:3001")
 
-  return await request.data;
+  if(request.data) return request.data
+
+  return []
 };
 
-export const getAccountsById = async (id: any) => {
+export const getAccountsById = async (id: number | string) => {
   const request = await axios.get(`http://localhost:3001/accounts/${id}`);
 
-  return request;
+  if(request) return request.data
+
+  return []
 };
+
+
+export const getAccountsData = async (setAccounts: Dispatch<SetStateAction<any>>) => {
+  setAccounts(await getAccounts())
+}
+
+export const getAccountData = async (id: number | string, setAccount:  Dispatch<SetStateAction<any>>) => {
+  setAccount(await getAccountsById(id))
+}
+
+
+
+
