@@ -1,19 +1,21 @@
-import React, { createContext, FC, useEffect, useState } from 'react';
-import { AccountContextProviderProps } from '../global/types';
-import { getAccountsData} from '../utils/request-functions';
+import React, { createContext, useEffect, useState } from "react";
+import { AccountContextProviderProps } from "../global/types";
+import { getAccounts } from "../utils/request-functions";
 
-export const AccountsContext = createContext([])
+export const AccountsContext = createContext([]);
 
-export const AccountContextProvider:FC<AccountContextProviderProps> = (props) => {
-    const [accounts, setAccounts] = useState([])
-    
-    useEffect(() => {
-        getAccountsData(setAccounts)
-    }, [])
+export const AccountContextProvider: React.FC<AccountContextProviderProps> = (
+  props
+) => {
+  const [accounts, setAccounts] = useState([]);
 
-    return (
-        <AccountsContext.Provider value={accounts}>
-            {props.children}
-        </AccountsContext.Provider>
-    )
-}
+  useEffect(() => {
+    getAccounts(setAccounts);
+  }, []);
+
+  return (
+    <AccountsContext.Provider value={accounts}>
+      {props.children}
+    </AccountsContext.Provider>
+  );
+};
