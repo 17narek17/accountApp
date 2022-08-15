@@ -1,56 +1,29 @@
 import React, { useEffect } from "react";
-import { 
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow
-} from "@material-ui/core";
+import { Table, TableBody, TableContainer, TableHead } from "@material-ui/core";
 import { useState } from "react";
+import { TablePart } from "../main-page/common/table/table-part";
+import { accountTableHead } from "../utils/teble-consants";
+import { useParams } from "react-router";
 import { getAccountsById } from "../utils/request-functions";
+import { AccType } from "../global/types";
 
+export const AccountPage: React.FC = () => {
+  const [account, setAccount] = useState<AccType[] | null>(null);
 
-type AccountPageType = {
-  accountId: number;
-};
-
-export const AccountPage: React.FC<AccountPageType> = ({ accountId }) => {
-  const [account, setAccount] = useState({
-    _id: '',
-    name: '',
-    createdAt: '',
-    owner: '',
-    updatedAt: ''
-  })
+  const { id } = useParams();
 
   useEffect(() => {
-    getAccountsById(accountId).then(res => setAccount(res.data[0]))
-  }, [accountId]);
-
+      if (id) getAccountsById(id, setAccount);
+  }, [id]);
 
   return (
     <TableContainer>
       <Table aria-label="simple table">
         <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="left">Created On</TableCell>
-            <TableCell align="left">Owner</TableCell>
-            <TableCell align="left">UpdatedAt</TableCell>
-          </TableRow>
+          <TablePart cells={accountTableHead} />
         </TableHead>
         <TableBody>
-            <TableRow >
-              <TableCell component="th" scope="row">
-                {account._id}
-              </TableCell>
-              <TableCell align="left">{account.name}</TableCell>
-              <TableCell align="left">{account.createdAt}</TableCell>
-              <TableCell align="left">{account.owner}</TableCell>
-              <TableCell align="left">{account.updatedAt}</TableCell>
-            </TableRow>
+          {account && <TablePart cells={Object.values(account[0])} />}
         </TableBody>
       </Table>
     </TableContainer>
