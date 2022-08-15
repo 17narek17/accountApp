@@ -6,7 +6,7 @@ export const getAccounts = async (
   setAccounts: Dispatch<SetStateAction<any>>
 ) => {
   try {
-    const request = await axios.get("http://localhost:3001/sad");
+    const request = await axios.get("http://localhost:3001");
 
     if (request?.data) setAccounts(request.data);
   } catch (err) {

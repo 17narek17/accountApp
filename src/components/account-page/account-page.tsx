@@ -13,11 +13,7 @@ export const AccountPage: React.FC = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    try {
       if (id) getAccountsById(id, setAccount);
-    } catch (err) {
-      console.error(err);
-    }
   }, [id]);
 
   return (
